@@ -55,7 +55,7 @@ $domains_sth = $dbh->prepare(q(SELECT id, name
 
 $records_sth = $dbh->prepare(q(SELECT name, type, content, ttl, prio
 	FROM records
-	WHERE type not like 'SOA' and domain_id = ?)) || "Couldn't prepare statement: " . $dbh->errstr;
+	WHERE domain_id = ?)) || "Couldn't prepare statement: " . $dbh->errstr;
 
 # Move the old file out of the way and create the filehandle
 # --
@@ -92,30 +92,32 @@ while ( @row = $domains_sth->fetchrow_array ) {
 		# --
 		if ( $type eq "SOA" ) {
 
-			# Increase the TTL to 259200
-			# --
-			$ttl = '259200';
+			# Ignore SOA for now
 
-			$content =~ s/([^ ]+) ([^@]+)@([^ ]+) (\d+) (\d+) (\d+) (\d+) (\d+)/$1/;
-			$contact = $2 . '.' . $3;
-			$serial  = $4;
-			$refresh = $5;
-			$retry   = $6;
-			$expire  = $7;
-			$min     = $8;
+			# # Increase the TTL to 259200
+			# # --
+			# $ttl = '259200';
 
-			$string = 'Z'
-				. escapeText( $name ) . ':'
-				. escapeText( $content ) . ':'
-				. escapeText( $contact ) . ':'
-				. $serial . ':'
-				. $refresh . ':'
-				. $retry . ':'
-				. $expire . ':'
-				. $min . ':'
-				. $ttl;
+			# $content =~ s/([^ ]+) ([^@]+)@([^ ]+) (\d+) (\d+) (\d+) (\d+) (\d+)/$1/;
+			# $contact = $2 . '.' . $3;
+			# $serial  = $4;
+			# $refresh = $5;
+			# $retry   = $6;
+			# $expire  = $7;
+			# $min     = $8;
 
-			print DATA "$string\n";
+			# $string = 'Z'
+			# 	. escapeText( $name ) . ':'
+			# 	. escapeText( $content ) . ':'
+			# 	. escapeText( $contact ) . ':'
+			# 	. $serial . ':'
+			# 	. $refresh . ':'
+			# 	. $retry . ':'
+			# 	. $expire . ':'
+			# 	. $min . ':'
+			# 	. $ttl;
+
+			# print DATA "$string\n";
 
 		}
 		elsif ( $type eq "NS" ) {
@@ -123,7 +125,7 @@ while ( @row = $domains_sth->fetchrow_array ) {
 			# --
 			$ttl = '259200';
 
-			$string	= '&'
+			$string	= '.'
 				. escapeText($name) . '::'
 				. escapeText($content) . ':'
 				. $ttl;
