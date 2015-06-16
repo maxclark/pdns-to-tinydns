@@ -10,8 +10,10 @@ by [Max Clark](http://www.clarksys.com)
 
 ## Credits
 
-[Anders Brownworth][2] [djbdns/tinydns Record Builder][3]
-[Open Collaborative Communities Network][4] [http://occnetwork.net/pdns-to-djbdns.txt][5]
+Some concepts and techniques borrowed from: 
+
+* [Anders Brownworth][2] [djbdns/tinydns Record Builder][3]
+* [Open Collaborative Communities Network][4] [http://occnetwork.net/pdns-to-djbdns.txt][5]
 
 ## License
 
